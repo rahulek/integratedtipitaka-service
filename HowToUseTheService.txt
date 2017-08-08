@@ -1,0 +1,73 @@
+WITH 1 AS lineNum, "प्रायोगिक भाषांतराचा नमुना" AS text, "VinayaMahavagga" AS bk 
+MATCH (a :Anchor {book:bk})-[r :CONTAINS]->(l :Line) WHERE lineNum in r.lineNumber WITH l, text, bk, lineNum
+MERGE (mline :MLine) 
+  ON CREATE SET mline.text = text, mline.modifiedcnt=0, mline.timestamp = timestamp() 
+  ON MATCH SET mline.text = text, mline.modifiedcnt = mline.modifiedcnt + 1, mline.timestamp = timestamp() WITH l, mline 
+  MERGE (l)-[:TRANSLATION]->(mline)
+  
+  =================
+;Insert Translation Node
+WITH 1 AS lineNum, "प्रायोगिक भाषांतराचा नमुना" AS text, "VinayaMahavagga" AS bk 
+MATCH (a :Anchor {book:bk})-[r :CONTAINS]->(l :Line) WHERE lineNum in r.lineNumber WITH l, text, bk, lineNum
+CREATE (mline :MLine) SET mline.text = text, mline.modifiedcnt=0, mline.timestamp = timestamp() 
+  CREATE (l)-[:TRANSLATION]->(mline)
+  
+;See if a translation node exists (i.e. path exists to that node )
+WITH 2 AS lineNum MATCH p = (a :Anchor {book:"VinayaMahavagga"})-[r :CONTAINS]-(l :Line)-[:TRANSLATION]->(m :MLine) WHERE lineNum in r.lineNumber RETURN length(p)
+
+;Modify the translation node
+WITH 2 AS lineNum, "नवीन भाषांतर" AS text MATCH p = (a :Anchor {book:"VinayaMahavagga"})-[r :CONTAINS]-(l :Line)-[:TRANSLATION]->(m :MLine) WHERE lineNum in r.lineNumber
+  SET m.text = text
+  
+;Create a role
+WITH "Admin" AS roleId, true AS roleCanRead, true AS roleCanWrite
+MERGE (role :Role {id:roleId}) SET role.canRead = roleCanRead, role.canWrite = roleCanWrite
+
+;Create a User
+WITH "rahulek" as uid, "anagha1bote" as pwd, "rahulek@gmail.com" as eml 
+CREATE (user :User {id:uid}) SET user.password = pwd, user.email = eml
+
+;User-Role
+WITH "Admin" AS rid, "rahulek" AS uid
+ MATCH (user :User {id:uid}) 
+ MATCH (role :Role {id:rid}) 
+ CREATE (user)-[:IS_A]->(role)
+
+WITH "rahulek" AS uid, "anagha1bote" AS pwd, "rahulek@gmail.com" AS eml
+MERGE (user :User {id:uid}) SET user.password = pwd, user.email = eml WITH user
+MATCH (role :Role {id:"Admin"}) CREATE (user)-[:IS_A]->(role);
+
+;User can read/write?
+WITH "rahulek" AS uid 
+MATCH (user :User {id:uid})-[:IS_A]->(role :Role) RETURN role.canRead AS canRead, role.canWrite AS canWrite
+
+-----------------------------------------------------------
+Insertion: POST on http://localhost:3000/insert?ctx=VinayaCullavagga
+Headers: Content-Type: application/json
+[
+  {
+  "LineNumber":"2",
+  "TranslatedText":"नवीन मराठी भाषांतर २??"
+},
+  {
+    "LineNumber":"3",
+    "TranslatedText":"नवीन मराठी भाषांतर 3??"
+  },
+  {
+    "LineNumber":"23",
+    "TranslatedText":"नवीन मराठी भाषांतर 33"
+  }
+  
+]
+
+
+{
+  "LineNumber":"10",
+  "TranslatedText":"दहावी ओळ"
+}
+]
+===============================================================
+Get one line : http://localhost:3000/line?ctx=VinayaCullavagga&number=XX&proclang=pali or marathi (case insensitive)
+Get more lines:  http://localhost:3000/lines?ctx=VinayaCullavagga&start=XX&end=YY&proclang=pali or marathi (case insensitive)
+==============================================================
+lein ring server-headless

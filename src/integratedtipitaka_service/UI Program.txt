@@ -1,0 +1,922 @@
+//////////////////// UI Code ///////////////////////////
+
+//BooInfo.java
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package translation2;
+
+/**
+ *
+ * @author rahul_ekbote
+ */
+public class BookInfo {
+    private int     m_atIndex;
+    private String  m_shortName;
+    private String  m_fullName;
+    
+    BookInfo(int ndx, String shortName, String fullName) {
+        m_atIndex = ndx;
+        m_shortName = shortName;
+        m_fullName = fullName;
+    }
+    
+    public int getIndex() {
+        return m_atIndex;
+    }
+    
+    public String getShortName() {
+        return m_shortName;
+    }
+    
+    public String getFullName() {
+        return m_fullName;
+    }
+}
+
+
+//FXMLDocument.fxml
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="translation2.FXMLDocumentController">
+   <children>
+      <HBox alignment="CENTER_LEFT" layoutX="14.0" layoutY="14.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="79.0" prefWidth="872.0" spacing="10.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
+         <children>
+            <ImageView fitHeight="100.0" fitWidth="193.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Buddha.jpg" />
+               </image></ImageView>
+            <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="42.0" prefWidth="525.0" text="Tipiṭaka Marāṭhī Translation Project" textFill="#393bcd" HBox.hgrow="NEVER">
+               <padding>
+                  <Insets left="10.0" right="10.0" />
+               </padding>
+               <font>
+                  <Font name="Tahoma" size="24.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="98.0" fitWidth="108.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@dhammacakka.png" />
+               </image></ImageView>
+         </children>
+      </HBox>
+      <SplitPane dividerPositions="0.29797979797979796" layoutX="6.0" layoutY="114.0" prefHeight="485.0" prefWidth="788.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="475.0" prefWidth="277.0">
+               <children>
+                  <GridPane layoutX="14.0" layoutY="14.0" prefHeight="115.0" prefWidth="227.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="16.0" AnchorPane.topAnchor="14.0">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="227.0" minWidth="10.0" prefWidth="227.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="128.0" minWidth="0.0" prefWidth="0.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints maxHeight="34.0" minHeight="10.0" prefHeight="28.0" vgrow="SOMETIMES" />
+                      <RowConstraints maxHeight="53.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints maxHeight="54.0" minHeight="10.0" prefHeight="54.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <Label alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" text="Server URL :" />
+                        <TextField fx:id="m_serverURL" text="http://localhost:3000" GridPane.rowIndex="1" />
+                        <HBox alignment="CENTER_LEFT" prefHeight="54.0" prefWidth="199.0" spacing="10.0" GridPane.rowIndex="2">
+                           <children>
+                              <Button mnemonicParsing="false" onAction="#onPingClicked" prefHeight="25.0" prefWidth="74.0" text="Ping" />
+                              <Label fx:id="m_serverStatus" prefHeight="17.0" prefWidth="139.0" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </GridPane>
+                  <Separator layoutX="28.0" layoutY="149.0" prefHeight="0.0" prefWidth="193.0" AnchorPane.leftAnchor="28.0" AnchorPane.rightAnchor="36.0" />
+                  <VBox layoutX="14.0" layoutY="170.0" prefHeight="292.0" prefWidth="227.0" spacing="10.0" AnchorPane.bottomAnchor="13.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="16.0" AnchorPane.topAnchor="170.0">
+                     <children>
+                        <Label text="Select Book :" />
+                        <ListView fx:id="m_BooksList" prefHeight="165.0" prefWidth="217.0">
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </padding>
+                        </ListView>
+                        <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="34.0" prefWidth="217.0" spacing="5.0">
+                           <children>
+                              <Label text="Start Line :">
+                                 <padding>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </padding>
+                              </Label>
+                              <TextField fx:id="m_startLine" prefHeight="27.0" prefWidth="64.0">
+                                 <padding>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </padding>
+                              </TextField>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="37.0" prefWidth="218.0" spacing="5.0">
+                           <children>
+                              <Label text="End Line : ">
+                                 <padding>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </padding>
+                              </Label>
+                              <TextField fx:id="m_endLine" prefHeight="18.0" prefWidth="62.0">
+                                 <padding>
+                                    <Insets bottom="5.0" left="10.0" right="5.0" top="5.0" />
+                                 </padding>
+                              </TextField>
+                              <Button fx:id="m_fetchButton" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onFetchLinesClicked" prefHeight="37.0" prefWidth="68.0" text="Fetch ">
+                                 <padding>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                 </padding>
+                              </Button>
+                           </children>
+                        </HBox>
+                     </children>
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                  </VBox>
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="463.0" prefWidth="609.0">
+               <children>
+                  <VBox layoutX="11.0" layoutY="12.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="467.0" prefWidth="591.0" spacing="5.0" AnchorPane.bottomAnchor="-4.0" AnchorPane.leftAnchor="11.0" AnchorPane.rightAnchor="7.0" AnchorPane.topAnchor="12.0">
+                     <children>
+                        <Label fx:id="m_paliTextBook" text="Pāli Text:">
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </padding>
+                        </Label>
+                        <TextArea fx:id="m_paliText" editable="false" minHeight="-Infinity" minWidth="-Infinity" prefHeight="173.0" prefWidth="589.0" text="This is Text Area" wrapText="true" VBox.vgrow="ALWAYS">
+                           <font>
+                              <Font name="Tahoma" size="14.0" />
+                           </font></TextArea>
+                        <HBox alignment="CENTER_LEFT" prefHeight="41.0" prefWidth="591.0" spacing="10.0">
+                           <children>
+                              <Label maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="17.0" prefWidth="135.0" text="Translated Line Number:">
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <TextField fx:id="m_translatedTextLine" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="74.0" />
+                              <Button fx:id="m_getTranslatedText" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onGetTranslatedTextClicked" text="Get Translated Text" />
+                           </children>
+                        </HBox>
+                        <Label maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" text="Translated Text:">
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </padding>
+                        </Label>
+                        <TextArea fx:id="m_translatedText" minHeight="-Infinity" minWidth="-Infinity" prefHeight="107.0" prefWidth="598.0" wrapText="true" VBox.vgrow="ALWAYS">
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </padding>
+                           <font>
+                              <Font name="Sanskrit 2003" size="18.0" />
+                           </font>
+                        </TextArea>
+                        <HBox alignment="CENTER_LEFT" prefHeight="61.0" prefWidth="591.0" spacing="10.0">
+                           <children>
+                              <Button fx:id="m_saveTranslatedText" mnemonicParsing="false" onAction="#onSaveTranslatedTextClicked" text="Save">
+                                 <padding>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </padding>
+                              </Button>
+                              <Label fx:id="m_saveStatus" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="31.0" prefWidth="534.0" text="Status of the Save Command">
+                                 <padding>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </padding>
+                              </Label>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </children>
+            </AnchorPane>
+        </items>
+         <padding>
+            <Insets bottom="10.0" />
+         </padding>
+         <opaqueInsets>
+            <Insets bottom="10.0" />
+         </opaqueInsets>
+      </SplitPane>
+   </children>
+</AnchorPane>
+
+
+//FXMLDocumentController.java
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package translation2;
+
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.ResourceBundle;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.control.SelectionMode;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+
+/**
+ *
+ * @author rahul_ekbote
+ */
+public class FXMLDocumentController implements Initializable {
+    private TranslationAPI m_api;
+    private static final String LangPali = "Pali"; //Pāli";
+    private static final String LangMarathi = "Marathi"; //Marāṭhī";
+    private static  HashMap<String, BookInfo> bookMappings;
+    private String m_currentBookContext = "";
+    
+    @FXML TextField m_serverURL;
+    @FXML Label     m_serverStatus;
+    @FXML ListView  m_BooksList;
+    @FXML TextField m_startLine;
+    @FXML TextField m_endLine;
+    @FXML Button    m_fetchButton;
+    @FXML Label     m_paliTextBook;
+    @FXML TextArea  m_paliText;
+    @FXML TextField m_translatedTextLine;
+    @FXML TextArea  m_translatedText;
+    @FXML Button    m_saveTranslatedText;
+    @FXML Label     m_saveStatus;
+    @FXML Button    m_getTranslatedText;
+    
+   @FXML
+   private void onPingClicked(ActionEvent event) {
+       System.out.println("Ping Clicked.");
+       if(m_api != null) {
+           if(m_api.Ping() == 1) {
+               m_serverStatus.setTextFill(Color.GREEN);
+               m_serverStatus.setText("Server is Alive.");
+           } else {
+               m_serverStatus.setTextFill(Color.RED);
+               m_serverStatus.setText("Server is NOT available.");
+           }
+       }
+   }
+
+   private BookInfo getSelectedBookInfo() {
+       int selectedIndex = m_BooksList.getSelectionModel().getSelectedIndex();
+       return getBookInfo(selectedIndex);
+   }
+   
+   private BookInfo getBookInfo(int ndx) {
+       BookInfo selectedBook = null;
+       for(BookInfo bi : bookMappings.values()) {
+         if(ndx == bi.getIndex()) {
+           selectedBook = bi;
+       }
+     }
+     return selectedBook;
+   }
+   
+   private void fetchLinesCommon() {
+       if(m_api != null) {
+           BookInfo selectedBook = getSelectedBookInfo();
+           if(selectedBook == null) {
+               System.err.println("Selected Book could not be found..");
+               return;
+           }
+           
+           m_currentBookContext = selectedBook.getShortName();
+           
+           int startLine = -1;
+           int endLine = -1;
+           try {
+               String startLineS = m_startLine.getText();
+               if(startLineS != null && !startLineS.isEmpty()) {
+                   startLine = Integer.parseInt(startLineS);
+               }
+               String endLineS = m_endLine.getText();
+               if(endLineS != null && !endLineS.isEmpty()) {
+                   endLine = Integer.parseInt(endLineS);
+               }
+               
+               if(endLine < startLine) {
+                   throw new Exception("Ending Line number must be greater than Starting Line number");
+               }
+               
+               ArrayList<HashMap<Integer, String>> lines = m_api.GetLines(m_currentBookContext, 
+                                                                 LangPali, 
+                                                                 startLine, endLine);
+//               System.out.println("Fetched these lines..\n" + lines);
+               StringBuffer  sb = new StringBuffer();
+               int currLine = startLine;
+               for(HashMap<Integer, String> line : lines) {
+                   sb.append(String.format("%d. %s\n\n", currLine, line.get(currLine)));
+                   currLine++;
+               }
+    //           System.out.println("SB->" + sb.toString());
+;               m_paliTextBook.setText(String.format("Pāli Text: %s", selectedBook.getFullName()));
+               paliTextBookCommon(selectedBook);
+               m_paliText.setText(sb.toString());
+               //clear up
+               m_translatedTextLine.clear();
+               m_translatedText.clear();
+               m_saveStatus.setText("");
+               
+           } catch(Exception ex) {
+               System.err.println("Exception during getting start and end line numbers.");
+               m_paliText.clear();
+               m_translatedText.clear();
+               m_saveStatus.setTextFill(Color.RED);
+               m_saveStatus.setText(String.format("Could not fetch the requestd lines: %d to %d", startLine, endLine));
+           }
+           
+       }
+   }
+   
+   private void paliTextBookCommon(BookInfo bookInfo) {
+    int numTotalLinesInTheBook = m_api.GetNumLines(bookInfo.getShortName());
+    int numTranslatedLinesInTheBook = m_api.GetNumTranslatedLines(bookInfo.getShortName());
+    
+    m_paliTextBook.setText(String.format("Pāli Text: %s\t\t\tTotal Lines: %d\tTranslated: %d", bookInfo.getFullName(), 
+                                        numTotalLinesInTheBook, numTranslatedLinesInTheBook));
+   }
+   
+   @FXML
+   private void onFetchLinesClicked(ActionEvent event) {
+//       System.out.println("Fetch Lines Clicked.");
+       fetchLinesCommon();
+   }
+    
+   @FXML
+   private void onSaveTranslatedTextClicked(ActionEvent event) {
+//       System.out.println("Save Translated Text Clicked.");
+       if(m_api != null) {
+           int translatedLineNumber = -1;
+           String translatedText = "";
+           try {
+               translatedLineNumber = Integer.parseInt(m_translatedTextLine.getText());
+               
+               if(translatedLineNumber == -1) {
+                   throw new InvalidLineNumberException("Invalid Translated Text Line Number.");
+               }
+               
+               translatedText = m_translatedText.getText();
+               if(translatedText == null || translatedText.isEmpty()) {
+                   throw new InvalidTranslatedTextException("Translated Text is empty");
+               }
+            } catch(InvalidLineNumberException ex) {
+               System.err.println("Exception during getting the translated line number.");
+               m_saveStatus.setTextFill(Color.RED);
+               m_saveStatus.setText("Please specify valid line number to fetch from the translation db.");
+               return;
+            } catch(InvalidTranslatedTextException ex) {
+               System.err.println("Exception during getting the translated text.");
+               m_saveStatus.setTextFill(Color.RED);
+               m_saveStatus.setText("Please specify translated text to be saved to the translation db.");
+               return;
+            } catch(Exception ex) {
+               System.err.println("Exception during getting the translated line number.");
+               m_saveStatus.setTextFill(Color.RED);
+               m_saveStatus.setText("Please specify valid line number to fetch from the translation db.");
+               return;
+            }
+            TranslatedLine trLine = new TranslatedLine(translatedLineNumber, translatedText);
+            
+            try {
+                //Insert
+                m_api.InsertTranslationLine(m_currentBookContext, trLine);
+
+                m_saveStatus.setTextFill(Color.GREEN);
+                m_saveStatus.setText(String.format("Line %d saved successfully.", translatedLineNumber));
+                
+                BookInfo selectedBook = getSelectedBookInfo();
+                if(selectedBook != null) {
+                    paliTextBookCommon(selectedBook);
+                }
+            } catch(Exception ex) {
+                m_saveStatus.setTextFill(Color.RED);
+                m_saveStatus.setText(String.format("Line %d COULD NOT be saved.", translatedLineNumber));
+            }
+       }
+   }
+  
+   @FXML
+   private void onGetTranslatedTextClicked(ActionEvent event) {
+//       System.out.println("Get Translated Text Clicked.");
+       if(m_api != null) {
+           int translatedLineNumber = -1;
+           String translatedText = "";
+           try {
+               translatedLineNumber = Integer.parseInt(m_translatedTextLine.getText());
+               
+               if(translatedLineNumber == -1) {
+                   throw new InvalidLineNumberException("Invalid Translated Text Line Number.");
+               }
+               
+               HashMap<Integer, String> retData  = m_api.GetLine(m_currentBookContext, LangMarathi, translatedLineNumber);
+               translatedText = retData.get(translatedLineNumber);
+//               System.out.println("Marathi Line No.: " + translatedLineNumber + ", Text= " + translatedText);
+            } catch(InvalidLineNumberException ex) {
+               System.err.println("Exception during getting marathi line.");
+               m_saveStatus.setTextFill(Color.RED);
+               m_saveStatus.setText(String.format("Could not get translated text for line %d. Probably the line is not yet translated.", translatedLineNumber));
+               m_translatedText.clear();
+               return;
+            } catch(Exception ex) {
+               System.err.println("Exception during getting marathi line.");
+               m_saveStatus.setTextFill(Color.RED);
+               m_saveStatus.setText("Could not get translated text, Invalid line number for the translated line.");
+               m_translatedText.clear();
+               return;
+            }
+            m_saveStatus.setTextFill(Color.GREEN);
+            m_saveStatus.setText("Fetched Translated Line Successfully.");
+            m_translatedText.setText(translatedText);
+       }
+   }
+   
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        try {
+            bookMappings = new HashMap<>();
+            bookMappings.put("VinayaMahavagga", new BookInfo(0, "VinayaMahavagga", "Vinaya Piṭaka -> Mahāvagga"));
+            bookMappings.put("VinayaCullavagga", new BookInfo(1, "VinayaCullavagga", "Vinaya Piṭaka -> Cullavagga"));
+            bookMappings.put("VinayaPacittiya", new BookInfo(2, "VinayaPacittiya", "Vinaya Piṭaka -> Pācittiya"));
+            bookMappings.put("VinayaParajika", new BookInfo(3, "VinayaParajika", "Vinaya Piṭaka -> Pārājikā"));
+            bookMappings.put("VinayaParivara", new BookInfo(4, "VinayaParivara", "Vinaya Piṭaka -> Parivāra"));
+          
+            m_api = new TranslationAPI();
+            
+            ObservableList<String> books = FXCollections.observableArrayList();
+            for(int i=0; i<bookMappings.size(); i++) {
+                BookInfo bi = getBookInfo(i);
+                if(bi != null) {
+                    books.add(bi.getFullName());
+                }
+            }
+//            System.out.println("Books-> " + books);
+            m_BooksList.setItems(books);
+            m_BooksList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+            m_BooksList.getSelectionModel().select(0);
+            
+            m_BooksList.getSelectionModel().selectedItemProperty().addListener(
+                    new ChangeListener<String>() {
+                       public void changed(ObservableValue<? extends String> ov, String oldVal, String newVal) {
+//                           System.out.println("Old: " + oldVal + ", New: " + newVal + " New @Ndx: " + m_BooksList.getSelectionModel().getSelectedIndex());
+                           BookInfo selectedBook = getSelectedBookInfo();
+                           if(selectedBook != null) {
+                               m_currentBookContext = selectedBook.getShortName();
+;                               m_paliTextBook.setText(selectedBook.getFullName());
+                               paliTextBookCommon(selectedBook);
+                           }
+                           fetchLinesCommon();
+                       } 
+                    });
+            
+            m_paliText.clear();
+            //Initialize current book context based on selected of the boox
+           BookInfo selectedBook = getSelectedBookInfo();
+           if(selectedBook != null) {
+                m_currentBookContext = selectedBook.getShortName();
+;                m_paliTextBook.setText(selectedBook.getFullName());
+                paliTextBookCommon(selectedBook);
+           }
+        } catch (Exception ex) {
+            System.err.println("Exception: " + ex);
+            throw ex;
+        }
+
+    }    
+    
+}
+
+
+
+//InvalidLineNumberException.java
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package translation2;
+
+/**
+ *
+ * @author rahul_ekbote
+ */
+public class InvalidLineNumberException extends Exception {
+    InvalidLineNumberException(String message) {
+        super(message);
+    }
+}
+
+
+//InvalidTranslatedTextException
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package translation2;
+
+/**
+ *
+ * @author rahul_ekbote
+ */
+public class InvalidTranslatedTextException extends Exception {
+    InvalidTranslatedTextException(String message) {
+        super(message);
+    }
+}
+
+
+//TranslatedLine.java
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package translation2;
+
+/**
+ *
+ * @author rahul_ekbote
+ */
+public class TranslatedLine {
+    private final int    m_lineNumber;
+    private final String m_lineText;
+    
+    public TranslatedLine(int lineNumber, String lineText) {
+        m_lineNumber = lineNumber;
+        m_lineText = lineText;
+    }
+    
+    public int getLineNumber() {
+        return m_lineNumber;
+    }
+    
+    public String getLineText() {
+        return m_lineText;
+    }
+}
+
+
+//Translation2.java
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package translation2;
+
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.stage.Stage;
+
+/**
+ *
+ * @author rahul_ekbote
+ */
+public class Translation2 extends Application {
+    
+    @Override
+    public void start(Stage stage) throws Exception {
+        stage.setTitle("Tipiṭaka Marāṭhī Translation Project");
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("Buddha.jpg")));
+        Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
+        
+        Scene scene = new Scene(root);
+        
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        launch(args);
+    }
+    
+}
+
+
+//TranslationAPI.java
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package translation2;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Optional;
+import javax.json.Json;
+import javax.json.JsonArray;
+import javax.json.JsonArrayBuilder;
+import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
+import javax.json.JsonReader;
+import javax.json.JsonString;
+import javax.json.JsonValue;
+
+/**
+ *
+ * @author rahul_ekbote
+ */
+public class TranslationAPI {
+    String m_url = "http://localhost:3000";
+    
+    public TranslationAPI() {
+    }
+    
+    public TranslationAPI(String urlString) {
+        if(urlString != null) {
+            m_url = urlString;
+        }
+    }
+    
+    public int Ping() {
+      try {
+            String pingUrl = String.format("%s/ping", m_url);
+            URL url = new URL(pingUrl);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("Accept", "application/json");
+
+            if (conn.getResponseCode() != 200) {
+                    throw new RuntimeException("Failed : HTTP error code : "
+                                    + conn.getResponseCode());
+            }
+            
+            conn.disconnect();
+      } catch (MalformedURLException e) {
+            System.err.println("MalformedURLException ->" + e);
+            return -1;
+      } catch (IOException e) {
+            System.err.println("IOException ->" + e);
+            return -1;
+      }
+      return 1;
+    }
+    
+    public ArrayList<String> GetBooks() {
+      ArrayList<String> allBooks = new ArrayList<>();
+      try {
+            String getBooksUrl = String.format("%s/books", m_url);
+            URL url = new URL(getBooksUrl);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("Accept", "application/json");
+
+            if (conn.getResponseCode() != 200) {
+                    throw new RuntimeException("Failed : HTTP error code : "
+                                    + conn.getResponseCode());
+            }
+            
+            JsonReader reader = Json.createReader(conn.getInputStream());
+            JsonArray arr = reader.readArray();
+            System.out.println("Got->" + arr);
+            arr.stream().forEach((val) -> {
+                JsonValue.ValueType typ = val.getValueType();
+                if (typ == JsonValue.ValueType.STRING) {
+                  allBooks.add(((JsonString)val).toString());
+                }
+            });
+            conn.disconnect();
+      } catch (MalformedURLException e) {
+            System.err.println("MalformedURLException ->" + e);
+      } catch (IOException e) {
+            System.err.println("IOException ->" + e);
+      }
+      return allBooks;
+    }
+    
+    
+    public int GetNumLines(String bookCtx) {
+      int numLines = -1;
+      try {
+            String numLinesUrl = String.format("%s/numlines?ctx=%s", m_url, bookCtx);
+            URL url = new URL(numLinesUrl);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("Accept", "application/json");
+
+            if (conn.getResponseCode() != 200) {
+                    throw new RuntimeException("Failed : HTTP error code : "
+                                    + conn.getResponseCode());
+            }
+            
+            JsonReader reader = Json.createReader(conn.getInputStream());
+            JsonObject findFirst = reader.readObject();
+            if(findFirst != null) {
+                numLines = findFirst.getInt("num-lines", -1);
+            }
+            conn.disconnect();
+      } catch (MalformedURLException e) {
+          System.err.println("MalformedURLException ->" + e);
+      } catch (IOException e) {
+          System.err.println("IOException ->" + e);
+      }
+      return numLines;
+    }
+
+    public int GetNumTranslatedLines(String bookCtx) {
+      int numTranslatedLines = -1;
+      try {
+            String numLinesUrl = String.format("%s/numtranslatedlines?ctx=%s", m_url, bookCtx);
+            URL url = new URL(numLinesUrl);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("Accept", "application/json");
+
+            if (conn.getResponseCode() != 200) {
+                    throw new RuntimeException("Failed : HTTP error code : "
+                                    + conn.getResponseCode());
+            }
+            
+            JsonReader reader = Json.createReader(conn.getInputStream());
+            JsonObject findFirst = reader.readObject();
+            if(findFirst != null) {
+                numTranslatedLines = findFirst.getInt("NumTranslatedLines", -1);
+            }
+            conn.disconnect();
+      } catch (MalformedURLException e) {
+          System.err.println("MalformedURLException ->" + e);
+      } catch (IOException e) {
+          System.err.println("IOException ->" + e);
+      }
+      return numTranslatedLines;
+    }
+    
+    public ArrayList<HashMap<Integer, String>> GetLines(String bookCtx, String language, int startNumber, int endNumber) {
+      ArrayList<HashMap<Integer, String>> lines = new ArrayList<>();
+      try {
+            String getLinesUrl = String.format("%s/lines?ctx=%s&proclang=%s&start=%d&end=%d", 
+                                                 m_url, bookCtx, language, startNumber, endNumber);
+            URL url = new URL(getLinesUrl);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("Accept", "application/json");
+
+            if (conn.getResponseCode() != 200) {
+                    throw new RuntimeException("Failed : HTTP error code : "
+                                    + conn.getResponseCode());
+            }
+
+            JsonReader reader = Json.createReader(conn.getInputStream());
+            JsonArray arr = reader.readArray();
+//            System.out.println("Got->" + arr);
+            arr.stream().forEach((JsonValue val) -> {
+                if(val.getValueType() == JsonValue.ValueType.OBJECT) {
+                    int lineNumber = ((JsonObject)val).getInt("LineNumber", -1);
+                    String lineText = ((JsonObject)val).getString("Line");
+                    HashMap<Integer, String>e = new HashMap<>();
+                    e.put(lineNumber, lineText);
+                    lines.add(e);
+                }
+            });
+            conn.disconnect();
+      } catch (MalformedURLException e) {
+            System.err.println("MalformedURLException ->" + e);
+      } catch (IOException e) {
+           System.err.println("IOException ->" + e);
+      }
+      return lines;
+    }
+    
+     public HashMap<Integer, String> GetLine(String bookCtx, String language, int lineNumber) {
+        //Use an existing function rather than a new HTTP request
+        ArrayList<HashMap<Integer, String>> lines = GetLines(bookCtx, language, lineNumber, lineNumber);
+        if(lines != null) {
+            return lines.get(0);
+        } else
+            return null;
+     }
+     
+     public void InsertTranslationLine(String bookCtx, TranslatedLine trLine) {
+        try {
+            HttpURLConnection conn;
+            
+            JsonObjectBuilder objBuilder = Json.createObjectBuilder();
+            if(objBuilder != null) {
+              objBuilder.add("LineNumber", String.format("%d", trLine.getLineNumber()));
+              objBuilder.add("TranslatedText", trLine.getLineText());
+            
+              JsonArrayBuilder arrBuilder = Json.createArrayBuilder();
+              if(arrBuilder != null) {
+                arrBuilder.add(objBuilder);
+              }
+              String jsonBody = arrBuilder.build().toString();
+              if(jsonBody != null) {
+//                System.out.println("Built Array->" + jsonBody);
+                
+                String insertLinesUrl = String.format("%s/insert?ctx=%s", m_url, bookCtx);
+                URL url = new URL(insertLinesUrl);
+                conn = (HttpURLConnection) url.openConnection();
+                conn.setRequestMethod("POST");
+                conn.addRequestProperty("Accept", "application/json; charset=UTF-8");
+                conn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+                conn.setRequestProperty("Content-Length", String.format("%d", jsonBody.length()));
+                
+                conn.setDoOutput(true);
+                
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                baos.write(jsonBody.getBytes("UTF-8"));
+                baos.writeTo(conn.getOutputStream());
+//                System.out.println("Byte Array->" + baos.toByteArray());
+                
+                if (conn.getResponseCode() != 200) {
+                        throw new RuntimeException("Failed : HTTP error code : "
+                                        + conn.getResponseCode());
+                }
+              }
+            }
+        } catch (MalformedURLException e) {
+            System.err.println("MalformedURLException ->" + e);
+        } catch (IOException e) {
+            System.err.println("IOException ->" + e);
+        }
+         
+     }
+     
+     public void InsertTranslationLines(String bookCtx, ArrayList<TranslatedLine> trLines) {
+        try {
+            HttpURLConnection conn;
+            
+            JsonArrayBuilder arrBuilder = Json.createArrayBuilder();
+            if(arrBuilder == null) {
+                throw new RuntimeException("Could not create JsonArrayBuilder");
+            }
+            
+            trLines.stream().forEach((trLine) -> {
+                JsonObjectBuilder objBuilder = Json.createObjectBuilder();
+                if (objBuilder != null) {
+                    objBuilder.add("LineNumber", String.format("%d", trLine.getLineNumber()));
+                    objBuilder.add("TranslatedText", trLine.getLineText());
+                    
+                    arrBuilder.add(objBuilder);
+                }
+            });
+            
+            String jsonBody = arrBuilder.build().toString();
+            if(jsonBody != null) {
+                System.out.println("Built Array->" + jsonBody);
+                
+                String insertLinesUrl = String.format("%s/insert?ctx=%s", m_url, bookCtx);
+                URL url = new URL(insertLinesUrl);
+                conn = (HttpURLConnection) url.openConnection();
+                conn.setRequestMethod("POST");
+                conn.addRequestProperty("Accept", "application/json; charset=UTF-8");
+                conn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+                conn.setRequestProperty("Content-Length", String.format("%d", jsonBody.length()));
+                
+                conn.setDoOutput(true);
+                
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                baos.write(jsonBody.getBytes("UTF-8"));
+                baos.writeTo(conn.getOutputStream());
+//                System.out.println("Byte Array->" + baos.toByteArray());
+                
+                if (conn.getResponseCode() != 200) {
+                        throw new RuntimeException("Failed : HTTP error code : "
+                                        + conn.getResponseCode());
+                }
+              }
+        } catch (MalformedURLException e) {
+            System.err.println("MalformedURLException ->" + e);
+        } catch (IOException e) {
+            System.err.println("IOException ->" + e);
+        }
+         
+     }
+    
+}
+
+

@@ -1,0 +1,35 @@
+(def x {:username admin :password "secret"})
+(def authdata {"admin" "secret" "test" "secret"})
+(authdata "admin")
+(authdata "test")
+(def parsed {:username "admin" :password "secret"})
+(parsed :username)
+(authdata (parsed :username))
+(def username (parsed :username))
+username
+(get authdata (keyword username))
+(get authdata username)
+(authdata username)
+(def pwd "secret")
+(authdata username)
+(= (authdata username) pwd)
+(keyword "admin")
+(keyword "secret")
+(def a (atom {}))
+(swap! a (assoc (keyword "6ce2f0d36c5a09915cf5638dcb18025a") (keyword "admin"})))
+(swap! a assoc (keyword "6ce2f0d36c5a09915cf5638dcb18025a") (keyword "admin"))
+a
+(swap! a dissoc (keyword "admin"))
+a
+aa
+a
+@a
+(get @a :admin)
+(get @a (keyword "6ce2f0d36c5a09915cf5638dcb18025a"))
+@a
+(swap! a dissoc :6ce2f0d36c5a09915cf5638dcb18025a)
+@a
+(clojure.string/split "Token 12345" #" ")
+(second (clojure.string/split "Token 12345" #" "))
+(keyword (second (clojure.string/split "Token 12345" #" ")))
+exit
